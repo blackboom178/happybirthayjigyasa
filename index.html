@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorry, Jigyasa</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #ffe4e1;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Password Page */
+        .password-page {
+            margin: 20% auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            width: 90%;
+            max-width: 400px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+        .password-page h1 {
+            font-size: 1.5em;
+            color: #d32f2f;
+            margin-bottom: 20px;
+        }
+        .password-page input {
+            padding: 10px;
+            font-size: 1em;
+            border: 2px solid #d32f2f;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            width: 80%;
+        }
+        .password-page button {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: white;
+            background-color: #d32f2f;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .password-page button:hover {
+            background-color: #b71c1c;
+            transform: scale(1.1);
+        }
+        .password-page #error {
+            color: red;
+            display: none;
+            margin-top: 10px;
+        }
+
+        /* Start Page */
+        .start-page {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh; /* Full viewport height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+            background-image: url('https://cdn.discordapp.com/attachments/1280504361235120219/1352518019376746527/japan.explores-20250321-0001.jpg?ex=67de4e10&is=67dcfc90&hm=c9f0c97a83758024839a303821721d39ef37f4f6d92e4cbf13ecdf84c09a6135&');
+            background-size: cover; /* Ensures the image covers the entire background */
+            background-position: center; /* Centers the image */
+        }
+
+        .start-page h1 {
+            font-size: 2em;
+            color: black; /* Black font color */
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5); /* Adds shadow to text for better readability */
+            z-index: 2; /* Ensures text is above the background */
+        }
+
+        .start-page span {
+            opacity: 0;
+            display: inline-block;
+        }
+
+        /* Main Apology Page */
+        .container {
+            margin: 10% auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            width: 90%;
+            max-width: 600px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeIn 1s ease-out forwards;
+            position: relative;
+            z-index: 2;
+        }
+        h1 {
+            color: #d32f2f;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1em;
+            color: #333;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: slideIn 1s ease-out 0.5s forwards;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1s forwards;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: white;
+            background-color: #d32f2f;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #b71c1c;
+            transform: scale(1.1);
+        }
+        .btn.yes {
+            background-color: #4CAF50;
+        }
+        .btn.yes:hover {
+            background-color: #45a049;
+        }
+        .btn.no {
+            background-color: #f44336;
+        }
+        .btn.no:hover {
+            background-color: #e53935;
+        }
+        .hidden {
+            display: none;
+        }
+
+        /* Thank You Page */
+        .thank-you-page {
+            margin: 10% auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            width: 90%;
+            max-width: 600px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+        .thank-you-page h1 {
+            color: #4CAF50;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .thank-you-page p {
+            font-size: 1em;
+            color: #333;
+        }
+
+        /* Forgive Me Page */
+        .forgive-me-page {
+            margin: 10% auto;
+            padding: 20px;
+            background: #f5f5dc; /* Old paper color */
+            width: 90%;
+            max-width: 600px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
+            font-family: 'Courier New', Courier, monospace; /* Old-style font */
+        }
+        .forgive-me-page h1 {
+            color: #8b4513; /* Brown color for old paper */
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .forgive-me-page p {
+            font-size: 1em;
+            color: #333;
+        }
+        .forgive-me-page img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 2s forwards; /* Image appears after 2 seconds */
+        }
+
+        /* Background Elements */
+        .bg-element {
+            position: absolute;
+            z-index: 1;
+            animation: float 5s infinite ease-in-out;
+            user-select: none;
+        }
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (min-width: 768px) {
+            .password-page h1 {
+                font-size: 2em;
+            }
+            .start-page h1 {
+                font-size: 3em;
+            }
+            h1 {
+                font-size: 2.5em;
+            }
+            p {
+                font-size: 1.2em;
+            }
+            .thank-you-page h1 {
+                font-size: 2.5em;
+            }
+            .thank-you-page p {
+                font-size: 1.2em;
+            }
+            .forgive-me-page h1 {
+                font-size: 2.5em;
+            }
+            .forgive-me-page p {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Music -->
+    <audio id="backgroundMusic" loop>
+        <source src="bring-me-back.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Password Page -->
+    <div class="password-page" id="passwordPage">
+        <h1>Enter Password</h1>
+        <input type="password" id="passwordInput" placeholder="Enter password" />
+        <button onclick="checkPassword()">Submit</button>
+        <p id="error">Incorrect password! Try again.</p>
+    </div>
+
+    <!-- Start Page -->
+    <div class="start-page hidden" id="startPage">
+        <h1>
+            <span id="i">I</span>
+            <span id="am">am</span>
+            <span id="sorry">sorry</span>
+            <span id="jigyasa">Jigyasa</span>
+        </h1>
+    </div>
+
+    <!-- Main Apology Page -->
+    <div class="container hidden" id="mainPage">
+        <h1 id="title">I'm Really Sorry, Jigyasa 😞</h1>
+        <p id="message">Jigyasa, I know I made mistakes. Please give me a chance to make things right.</p>
+        <div class="btn-container">
+            <button class="btn yes" onclick="handleYes()">Yes</button>
+            <button class="btn no" onclick="handleNo()">No</button>
+        </div>
+    </div>
+
+    <!-- Thank You Page -->
+    <div class="thank-you-page hidden" id="thankYouPage">
+        <h1>Thank You for Forgiving Me! 😊❤️</h1>
+        <p>I promise this won't happen again. You mean the world to me, and I'll do everything to make you happy. Thank you for giving me another chance! ❤️</p>
+    </div>
+
+    <!-- Forgive Me Page -->
+    <div class="forgive-me-page hidden" id="forgiveMePage">
+        <h1>Forgive Me 🥺</h1>
+        <p>Jigyasa, I know I've hurt you, and I regret it deeply. Please forgive me and give me another chance to make things right. You mean everything to me.</p>
+        <img src="https://cdn.discordapp.com/attachments/1280504361235120219/1352506982636191765/WhatsApp_Image_2025-03-21_at_09.49.44_0be682b1.jpg?ex=67de43c9&is=67dcf249&hm=ce39517acba19427c0cef556ac93a41fbd26b4385e30dcdb05c405744229d0c8&" alt="Forgive Me Image" />
+    </div>
+
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        // Function to play background music
+        function playBackgroundMusic() {
+            const audio = document.getElementById("backgroundMusic");
+            audio.play().catch(() => {
+                // Handle autoplay restrictions
+                console.log("Autoplay blocked. Please interact with the page to play music.");
+            });
+        }
+
+        // Play music when the page loads
+        window.onload = playBackgroundMusic;
+
+        // Function to check password
+        function checkPassword() {
+            const password = document.getElementById("passwordInput").value;
+            const error = document.getElementById("error");
+
+            if (password === "1728") {
+                document.getElementById("passwordPage").classList.add("hidden");
+                document.getElementById("startPage").classList.remove("hidden");
+                animateStartPage(); // Start the animation
+            } else {
+                error.style.display = "block"; // Show error message
+            }
+        }
+
+        // Function to create background elements
+        function createBackgroundElements() {
+            const elements = ['❤️', '⭐', '✨']; // Cute elements
+            const numElements = 50; // Number of elements to create
+
+            for (let i = 0; i < numElements; i++) {
+                const element = document.createElement('div');
+                element.className = 'bg-element';
+                element.innerText = elements[Math.floor(Math.random() * elements.length)];
+                element.style.fontSize = `${Math.random() * 24 + 16}px`; // Random size between 16px and 40px
+                element.style.top = `${Math.random() * 100}%`; // Random vertical position
+                element.style.left = `${Math.random() * 100}%`; // Random horizontal position
+                element.style.animationDuration = `${Math.random() * 4 + 3}s`; // Random animation speed
+                document.body.appendChild(element);
+            }
+        }
+
+        // Function to animate the phrase "I am sorry Jigyasa" with 1-second delay per word
+        function animateStartPage() {
+            const words = ["i", "am", "sorry", "jigyasa"];
+            let delay = 0;
+
+            words.forEach((word, index) => {
+                setTimeout(() => {
+                    document.getElementById(word).style.opacity = 1;
+                }, delay);
+                delay += 1000; // 1-second delay between words
+            });
+
+            // Move to the main page immediately after the last word appears
+            setTimeout(() => {
+                document.getElementById("startPage").classList.add("hidden");
+                document.getElementById("mainPage").classList.remove("hidden");
+                createBackgroundElements(); // Create background elements
+                updatePage(); // Initialize the main page
+            }, delay); // No additional delay after the last word
+        }
+
+        let messages = [
+            "Jigyasa, I know I made mistakes. Please give me a chance to make things right.",
+            "I miss you every single day. Life feels incomplete without you.",
+            "I regret everything that hurt you. I never wanted to make you feel that way.",
+            "If I could turn back time, I'd do things differently. I just want to make you happy.",
+            "I know words aren't enough, but I promise to be better for you.",
+            "No matter what happens, you will always hold a special place in my heart.",
+            "I still cherish all the memories we've made together.",
+            "I hope one day you'll see how much I truly care for you.",
+            "Please don't be mad at me forever. I am willing to do anything to make it right.",
+            "This is my last request, Jigyasa. Will you forgive me?"
+        ];
+        
+        let page = 0;
+
+        // Function to trigger confetti
+        function triggerConfetti() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
+        function updatePage() {
+            const title = document.getElementById("title");
+            const message = document.getElementById("message");
+            const btnContainer = document.querySelector(".btn-container");
+
+            // Update content
+            title.innerText = "Did You Forgive Me? 🥺";
+            message.innerText = messages[page];
+
+            // Reset animations
+            message.style.opacity = 0;
+            btnContainer.style.opacity = 0;
+            setTimeout(() => {
+                message.style.opacity = 1;
+                btnContainer.style.opacity = 1;
+            }, 100);
+        }
+
+        function handleYes() {
+            triggerConfetti(); // Trigger confetti
+            document.getElementById("mainPage").classList.add("hidden");
+            document.getElementById("thankYouPage").classList.remove("hidden");
+        }
+
+        function handleNo() {
+            if (page < messages.length - 1) {
+                page++;
+                updatePage();
+            } else {
+                // Show the "Forgive Me" page
+                document.getElementById("mainPage").classList.add("hidden");
+                document.getElementById("forgiveMePage").classList.remove("hidden");
+            }
+        }
+    </script>
+
+</body>
+</html>
