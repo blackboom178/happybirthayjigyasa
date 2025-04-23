@@ -1,459 +1,746 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sorry, Jigyasa</title>
-    <style>
-        /* General Styles */
-        body {
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-            background-color: #ffe4e1;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Password Page */
-        .password-page {
-            margin: 20% auto;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            width: 90%;
-            max-width: 400px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            position: relative;
-            z-index: 2;
-        }
-        .password-page h1 {
-            font-size: 1.5em;
-            color: #d32f2f;
-            margin-bottom: 20px;
-        }
-        .password-page input {
-            padding: 10px;
-            font-size: 1em;
-            border: 2px solid #d32f2f;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            width: 80%;
-        }
-        .password-page button {
-            padding: 10px 20px;
-            font-size: 1em;
-            color: white;
-            background-color: #d32f2f;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-        .password-page button:hover {
-            background-color: #b71c1c;
-            transform: scale(1.1);
-        }
-        .password-page #error {
-            color: red;
-            display: none;
-            margin-top: 10px;
-        }
-
-        /* Start Page */
-        .start-page {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100vh; /* Full viewport height */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            z-index: 2;
-            background-image: url('https://cdn.discordapp.com/attachments/1280504361235120219/1352518019376746527/japan.explores-20250321-0001.jpg?ex=67de4e10&is=67dcfc90&hm=c9f0c97a83758024839a303821721d39ef37f4f6d92e4cbf13ecdf84c09a6135&');
-            background-size: cover; /* Ensures the image covers the entire background */
-            background-position: center; /* Centers the image */
-        }
-
-        .start-page h1 {
-            font-size: 2em;
-            color: black; /* Black font color */
-            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5); /* Adds shadow to text for better readability */
-            z-index: 2; /* Ensures text is above the background */
-        }
-
-        .start-page span {
-            opacity: 0;
-            display: inline-block;
-        }
-
-        /* Main Apology Page */
-        .container {
-            margin: 10% auto;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            width: 90%;
-            max-width: 600px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            opacity: 0;
-            transform: translateY(-20px);
-            animation: fadeIn 1s ease-out forwards;
-            position: relative;
-            z-index: 2;
-        }
-        h1 {
-            color: #d32f2f;
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-        p {
-            font-size: 1em;
-            color: #333;
-            margin-bottom: 30px;
-            opacity: 0;
-            animation: slideIn 1s ease-out 0.5s forwards;
-        }
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            opacity: 0;
-            animation: fadeIn 1s ease-out 1s forwards;
-        }
-        .btn {
-            padding: 10px 20px;
-            font-size: 1em;
-            color: white;
-            background-color: #d32f2f;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-        .btn:hover {
-            background-color: #b71c1c;
-            transform: scale(1.1);
-        }
-        .btn.yes {
-            background-color: #4CAF50;
-        }
-        .btn.yes:hover {
-            background-color: #45a049;
-        }
-        .btn.no {
-            background-color: #f44336;
-        }
-        .btn.no:hover {
-            background-color: #e53935;
-        }
-        .hidden {
-            display: none;
-        }
-
-        /* Thank You Page */
-        .thank-you-page {
-            margin: 10% auto;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            width: 90%;
-            max-width: 600px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            position: relative;
-            z-index: 2;
-        }
-        .thank-you-page h1 {
-            color: #4CAF50;
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-        .thank-you-page p {
-            font-size: 1em;
-            color: #333;
-        }
-
-        /* Forgive Me Page */
-        .forgive-me-page {
-            margin: 10% auto;
-            padding: 20px;
-            background: #f5f5dc; /* Old paper color */
-            width: 90%;
-            max-width: 600px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            position: relative;
-            z-index: 2;
-            font-family: 'Courier New', Courier, monospace; /* Old-style font */
-        }
-        .forgive-me-page h1 {
-            color: #8b4513; /* Brown color for old paper */
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-        .forgive-me-page p {
-            font-size: 1em;
-            color: #333;
-        }
-        .forgive-me-page img {
-            width: 100%;
-            max-width: 300px;
-            height: auto;
-            margin-top: 20px;
-            opacity: 0;
-            animation: fadeIn 1s ease-out 2s forwards; /* Image appears after 2 seconds */
-        }
-
-        /* Background Elements */
-        .bg-element {
-            position: absolute;
-            z-index: 1;
-            animation: float 5s infinite ease-in-out;
-            user-select: none;
-        }
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
-            20%, 40%, 60%, 80% { transform: translateX(10px); }
-        }
-        .shake {
-            animation: shake 0.5s;
-        }
-
-        /* Media Queries for Responsiveness */
-        @media (min-width: 768px) {
-            .password-page h1 {
-                font-size: 2em;
-            }
-            .start-page h1 {
-                font-size: 3em;
-            }
-            h1 {
-                font-size: 2.5em;
-            }
-            p {
-                font-size: 1.2em;
-            }
-            .thank-you-page h1 {
-                font-size: 2.5em;
-            }
-            .thank-you-page p {
-                font-size: 1.2em;
-            }
-            .forgive-me-page h1 {
-                font-size: 2.5em;
-            }
-            .forgive-me-page p {
-                font-size: 1.2em;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Jigyasa! 🎉</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap');
+    
+    body {
+      font-family: 'Baloo 2', cursive;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee);
+      background-size: 400% 400%;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      animation: gradientBG 15s ease infinite;
+      overflow: hidden;
+    }
+    
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .container {
+      max-width: 800px;
+      padding: 20px;
+      position: relative;
+      z-index: 10;
+    }
+    
+    h1 {
+      color: white;
+      font-size: 3rem;
+      text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+      margin-bottom: 30px;
+      animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .page {
+      display: none;
+      background: rgba(255,255,255,0.85);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      backdrop-filter: blur(5px);
+      transform-style: preserve-3d;
+      transition: all 0.5s ease;
+    }
+    
+    .page.active {
+      display: block;
+      animation: fadeIn 0.8s, float 4s ease-in-out infinite;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0.5deg); }
+      50% { transform: translateY(-10px) rotate(-0.5deg); }
+    }
+    
+    #cake-container {
+      width: 300px;
+      height: 300px;
+      margin: 0 auto;
+      position: relative;
+    }
+    
+    .btn {
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      margin: 15px;
+      transition: all 0.3s;
+      box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+      font-weight: bold;
+    }
+    
+    .btn:hover {
+      background: #ff5252;
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 8px 20px rgba(255,107,107,0.6);
+    }
+    
+    .wish-form {
+      margin-top: 20px;
+    }
+    
+    textarea {
+      width: 100%;
+      padding: 15px;
+      border-radius: 15px;
+      border: 2px solid #ff6b6b;
+      margin-bottom: 20px;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    
+    textarea:focus {
+      outline: none;
+      border-color: #f368e0;
+      box-shadow: 0 0 10px rgba(243,104,224,0.5);
+    }
+    
+    .balloon {
+      position: absolute;
+      width: 40px;
+      height: 50px;
+      border-radius: 50%;
+      animation: floatUp 15s linear infinite;
+      z-index: 1;
+    }
+    
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+    }
+    
+    .hearts {
+      position: absolute;
+      font-size: 20px;
+      color: #ff6b6b;
+      animation: floatHeart 8s linear infinite;
+      z-index: 1;
+    }
+    
+    @keyframes floatHeart {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+    }
+    
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+    
+    .qualities-list {
+      text-align: left;
+      font-size: 1.2rem;
+      color: #5f27cd;
+    }
+    
+    .qualities-list li {
+      margin: 15px 0;
+      padding: 10px;
+      background: rgba(255,255,255,0.7);
+      border-radius: 10px;
+      list-style-type: "🎀 ";
+      animation: slideIn 0.5s forwards;
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    
+    @keyframes slideIn {
+      to { opacity: 1; transform: translateX(0); }
+    }
+    
+    /* Intro Animation */
+    #intro {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background: rgba(0,0,0,0.7);
+      z-index: 100;
+    }
+    
+    .intro-text {
+      color: white;
+      font-size: 4rem;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    
+    .intro-word {
+      display: inline-block;
+      margin: 0 10px;
+    }
+    
+    .heart-explosion {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    
+    .heart-particle {
+      position: absolute;
+      font-size: 24px;
+      opacity: 0;
+      animation: heartPop 1s forwards;
+    }
+    
+    @keyframes heartPop {
+      0% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1.5); opacity: 1; }
+      100% { transform: scale(1); opacity: 0; }
+    }
+    
+    /* Second Intro Page */
+    #second-intro {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background: rgba(0,0,0,0.7);
+      z-index: 99;
+    }
+    
+    .second-intro-text {
+      color: white;
+      font-size: 4rem;
+      text-align: center;
+    }
+    
+    .second-intro-word {
+      display: inline-block;
+      margin: 0 10px;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    
+    .age-reveal {
+      font-size: 3rem;
+      color: #ff6b6b;
+      margin-top: 30px;
+      opacity: 0;
+      transform: scale(0);
+    }
+    
+    .blast-circle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.8);
+      transform: scale(0);
+      pointer-events: none;
+    }
+  </style>
 </head>
 <body>
-
-    <!-- Background Music -->
-    <audio id="backgroundMusic" loop>
-        <source src="bring-me-back.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-
-    <!-- Password Page -->
-    <div class="password-page" id="passwordPage">
-        <h1>Enter Password</h1>
-        <input type="password" id="passwordInput" placeholder="Enter password" />
-        <button onclick="checkPassword()">Submit</button>
-        <p id="error">Incorrect password! Try again.</p>
+  <canvas id="confetti-canvas"></canvas>
+  
+  <!-- First Intro Screen -->
+  <div id="intro">
+    <div class="intro-text" id="intro-text">
+      <span class="intro-word">Happy</span>
+      <span class="intro-word">Birthday</span>
+      <span class="intro-word">Jigyasa!</span>
     </div>
-
-    <!-- Start Page -->
-    <div class="start-page hidden" id="startPage">
-        <h1>
-            <span id="i">I</span>
-            <span id="am">am</span>
-            <span id="sorry">sorry</span>
-            <span id="jigyasa">Jigyasa</span>
-        </h1>
+    <div class="heart-explosion" id="heart-explosion"></div>
+  </div>
+  
+  <!-- Second Intro Screen -->
+  <div id="second-intro">
+    <div class="second-intro-text" id="second-intro-text">
+      <span class="second-intro-word">Happy</span>
+      <span class="second-intro-word">Birthday</span>
+      <span class="second-intro-word">Jigyasa!</span>
     </div>
-
-    <!-- Main Apology Page -->
-    <div class="container hidden" id="mainPage">
-        <h1 id="title">I'm Really Sorry, Jigyasa 😞</h1>
-        <p id="message">Jigyasa, I know I made mistakes. Please give me a chance to make things right.</p>
-        <div class="btn-container">
-            <button class="btn yes" onclick="handleYes()">Yes</button>
-            <button class="btn no" onclick="handleNo()">No</button>
-        </div>
+    <div id="age-reveal" class="age-reveal"></div>
+  </div>
+  
+  <!-- Floating balloons -->
+  <div class="balloon" style="left:10%; background:#ff7675; animation-delay:0s;"></div>
+  <div class="balloon" style="left:25%; background:#74b9ff; animation-delay:2s;"></div>
+  <div class="balloon" style="left:40%; background:#ffeaa7; animation-delay:4s;"></div>
+  <div class="balloon" style="left:55%; background:#a29bfe; animation-delay:1s;"></div>
+  <div class="balloon" style="left:70%; background:#fd79a8; animation-delay:3s;"></div>
+  <div class="balloon" style="left:85%; background:#55efc4; animation-delay:5s;"></div>
+  
+  <!-- Floating hearts -->
+  <div class="hearts" style="left:15%; animation-delay:0.5s;">❤️</div>
+  <div class="hearts" style="left:30%; animation-delay:1.5s;">💖</div>
+  <div class="hearts" style="left:45%; animation-delay:2.5s;">💕</div>
+  <div class="hearts" style="left:60%; animation-delay:3.5s;">💗</div>
+  <div class="hearts" style="left:75%; animation-delay:4.5s;">💘</div>
+  
+  <div class="container">
+    <!-- Home Page -->
+    <div class="page" id="home">
+      <h1>🎂 Happy Birthday Jigyasa! 🎉</h1>
+      <p style="font-size:1.2rem; color:#5f27cd;">Click next to begin your magical day!</p>
+      <button class="btn" onclick="nextPage()">Let's Go! 🚀</button>
     </div>
-
-    <!-- Thank You Page -->
-    <div class="thank-you-page hidden" id="thankYouPage">
-        <h1>Thank You for Forgiving Me! 😊❤️</h1>
-        <p>I promise this won't happen again. You mean the world to me, and I'll do everything to make you happy. Thank you for giving me another chance! ❤️</p>
+    
+    <!-- Qualities Page -->
+    <div class="page" id="qualities">
+      <h1>✨ What Makes You Special ✨</h1>
+      <ul class="qualities-list">
+        <li style="animation-delay:0.2s">Brilliant mind that sparkles like stars</li>
+        <li style="animation-delay:0.4s">Heart full of kindness and warmth</li>
+        <li style="animation-delay:0.6s">Incredible sense of humor that lights up rooms</li>
+        <li style="animation-delay:0.8s">Strength that inspires everyone around you</li>
+        <li style="animation-delay:1.0s">Unique beauty inside and out</li>
+      </ul>
+      <button class="btn" onclick="nextPage()">Continue the Magic ✨</button>
     </div>
-
-    <!-- Forgive Me Page -->
-    <div class="forgive-me-page hidden" id="forgiveMePage">
-        <h1>Forgive Me 🥺</h1>
-        <p>Jigyasa, I know I've hurt you, and I regret it deeply. Please forgive me and give me another chance to make things right. You mean everything to me.</p>
-        <img src="https://cdn.discordapp.com/attachments/1280504361235120219/1352506982636191765/WhatsApp_Image_2025-03-21_at_09.49.44_0be682b1.jpg?ex=67de43c9&is=67dcf249&hm=ce39517acba19427c0cef556ac93a41fbd26b4385e30dcdb05c405744229d0c8&" alt="Forgive Me Image" />
+    
+    <!-- Countdown Page -->
+    <div class="page" id="countdown">
+      <h1>🌟 Your Beautiful Journey 🌟</h1>
+      <p style="font-size:1.3rem; color:#5f27cd;">From 2008 to today!</p>
+      <div id="year-counter" style="font-size:3rem; font-weight:bold; color:#ff6b6b; margin:20px 0;">2008</div>
+      <div id="age-display" style="font-size:1.5rem; color:#5f27cd;"></div>
+      <button class="btn" onclick="nextPage()">Blow the Candles! 🎂</button>
     </div>
+    
+    <!-- Cake Page -->
+    <div class="page" id="cake">
+      <h1>🕯️ Make a Wish! 🕯️</h1>
+      <div id="cake-container"></div>
+      <p style="font-size:1.2rem; color:#5f27cd;">Click each candle to blow it out</p>
+      <div id="wish-message" style="display:none; font-size:1.3rem; color:#ff6b6b; margin-top:15px;"></div>
+    </div>
+    
+    <!-- Wish Page -->
+    <div class="page" id="wish">
+      <h1>🌠 Your Birthday Wish 🌠</h1>
+      <div class="wish-form">
+        <form id="birthdayWish" action="https://formsubmit.co/foruse78@gmail.com" method="POST">
+          <input type="hidden" name="_subject" value="Jigyasa's Birthday Wish!">
+          <textarea name="wish" placeholder="What wonderful things would you like this year?" rows="5" required></textarea>
+          <button type="submit" class="btn" id="submitWishBtn">Send My Wish to the Universe 🌈</button>
+        </form>
+      </div>
+    </div>
+  </div>
 
-    <!-- Confetti Library -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
-    <script>
-        // Function to play background music
-        function playBackgroundMusic() {
-            const audio = document.getElementById("backgroundMusic");
-            audio.play().catch(() => {
-                // Handle autoplay restrictions
-                console.log("Autoplay blocked. Please interact with the page to play music.");
-            });
-        }
-
-        // Play music when the page loads
-        window.onload = playBackgroundMusic;
-
-        // Function to check password
-        function checkPassword() {
-            const password = document.getElementById("passwordInput").value;
-            const error = document.getElementById("error");
-
-            if (password === "1728") {
-                document.getElementById("passwordPage").classList.add("hidden");
-                document.getElementById("startPage").classList.remove("hidden");
-                animateStartPage(); // Start the animation
-            } else {
-                error.style.display = "block"; // Show error message
-            }
-        }
-
-        // Function to create background elements
-        function createBackgroundElements() {
-            const elements = ['❤️', '⭐', '✨']; // Cute elements
-            const numElements = 50; // Number of elements to create
-
-            for (let i = 0; i < numElements; i++) {
-                const element = document.createElement('div');
-                element.className = 'bg-element';
-                element.innerText = elements[Math.floor(Math.random() * elements.length)];
-                element.style.fontSize = `${Math.random() * 24 + 16}px`; // Random size between 16px and 40px
-                element.style.top = `${Math.random() * 100}%`; // Random vertical position
-                element.style.left = `${Math.random() * 100}%`; // Random horizontal position
-                element.style.animationDuration = `${Math.random() * 4 + 3}s`; // Random animation speed
-                document.body.appendChild(element);
-            }
-        }
-
-        // Function to animate the phrase "I am sorry Jigyasa" with 1-second delay per word
-        function animateStartPage() {
-            const words = ["i", "am", "sorry", "jigyasa"];
-            let delay = 0;
-
-            words.forEach((word, index) => {
+  <script>
+    const pages = ["home", "qualities", "countdown", "cake", "wish"];
+    let currentPage = 0;
+    let candlesBlown = 0;
+    let cakeScene, cakeCamera, cakeRenderer, cake, candles = [];
+    let raycaster = new THREE.Raycaster();
+    let mouse = new THREE.Vector2();
+    
+    // Confetti setup
+    const confettiSettings = { 
+      target: 'confetti-canvas',
+      max: 150,
+      size: 1.5,
+      animate: true,
+      props: ['circle', 'square', 'triangle', 'line'],
+      colors: [[255,107,107], [255,159,67], [255,206,70], [46,204,113], [52,152,219], [155,89,182]],
+      clock: 25
+    };
+    const confetti = new ConfettiGenerator(confettiSettings);
+    
+    // Show intro animation first
+    showIntro();
+    
+    function showIntro() {
+      const words = document.querySelectorAll('.intro-word');
+      const heartExplosion = document.getElementById('heart-explosion');
+      
+      // Animate words one by one
+      words.forEach((word, index) => {
+        setTimeout(() => {
+          word.style.opacity = 1;
+          word.style.transform = 'translateY(0)';
+          
+          // On last word, show heart explosion
+          if (index === words.length - 1) {
+            setTimeout(() => {
+              createHeartExplosion();
+              setTimeout(() => {
+                document.getElementById('intro').style.opacity = 0;
                 setTimeout(() => {
-                    document.getElementById(word).style.opacity = 1;
-                }, delay);
-                delay += 1000; // 1-second delay between words
-            });
-
-            // Move to the main page immediately after the last word appears
+                  document.getElementById('intro').style.display = 'none';
+                  showSecondIntro();
+                }, 1000);
+              }, 1500);
+            }, 500);
+          }
+        }, 1000 * index);
+      });
+    }
+    
+    function showSecondIntro() {
+      document.getElementById('second-intro').style.display = 'flex';
+      const words = document.querySelectorAll('.second-intro-word');
+      
+      // Animate words one by one
+      words.forEach((word, index) => {
+        setTimeout(() => {
+          word.style.opacity = 1;
+          word.style.transform = 'translateY(0)';
+          
+          // On last word, show blast and transition
+          if (index === words.length - 1) {
             setTimeout(() => {
-                document.getElementById("startPage").classList.add("hidden");
-                document.getElementById("mainPage").classList.remove("hidden");
-                createBackgroundElements(); // Create background elements
-                updatePage(); // Initialize the main page
-            }, delay); // No additional delay after the last word
-        }
-
-        let messages = [
-            "Jigyasa, I know I made mistakes. Please give me a chance to make things right.",
-            "I miss you every single day. Life feels incomplete without you.",
-            "I regret everything that hurt you. I never wanted to make you feel that way.",
-            "If I could turn back time, I'd do things differently. I just want to make you happy.",
-            "I know words aren't enough, but I promise to be better for you.",
-            "No matter what happens, you will always hold a special place in my heart.",
-            "I still cherish all the memories we've made together.",
-            "I hope one day you'll see how much I truly care for you.",
-            "Please don't be mad at me forever. I am willing to do anything to make it right.",
-            "This is my last request, Jigyasa. Will you forgive me?"
-        ];
+              createBlastEffect();
+              setTimeout(() => {
+                document.getElementById('second-intro').style.opacity = 0;
+                setTimeout(() => {
+                  document.getElementById('second-intro').style.display = 'none';
+                  showPage('home');
+                }, 1000);
+              }, 1500);
+            }, 500);
+          }
+        }, 1000 * index);
+      });
+    }
+    
+    function createHeartExplosion() {
+      const heartExplosion = document.getElementById('heart-explosion');
+      const hearts = ['❤️', '💖', '💕', '💗', '💘', '💓', '💝'];
+      
+      for (let i = 0; i < 50; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart-particle';
+        heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.top = Math.random() * 100 + '%';
+        heart.style.animationDelay = Math.random() * 0.5 + 's';
+        heart.style.fontSize = (20 + Math.random() * 30) + 'px';
+        heartExplosion.appendChild(heart);
         
-        let page = 0;
-
-        // Function to trigger confetti
-        function triggerConfetti() {
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
+        // Remove heart after animation
+        setTimeout(() => {
+          heart.remove();
+        }, 1000);
+      }
+    }
+    
+    function createBlastEffect() {
+      const container = document.getElementById('second-intro');
+      const blast = document.createElement('div');
+      blast.className = 'blast-circle';
+      blast.style.width = '0px';
+      blast.style.height = '0px';
+      blast.style.left = '50%';
+      blast.style.top = '50%';
+      blast.style.transform = 'translate(-50%, -50%) scale(0)';
+      blast.style.background = 'radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,107,107,0) 70%)';
+      container.appendChild(blast);
+      
+      // Animate blast
+      setTimeout(() => {
+        blast.style.width = '2000px';
+        blast.style.height = '2000px';
+        blast.style.transform = 'translate(-50%, -50%) scale(1)';
+        blast.style.opacity = '0';
+        blast.style.transition = 'all 1s ease-out';
+      }, 10);
+      
+      // Show age reveal
+      const ageReveal = document.getElementById('age-reveal');
+      ageReveal.textContent = 'You are now 17! 🎉';
+      setTimeout(() => {
+        ageReveal.style.opacity = '1';
+        ageReveal.style.transform = 'scale(1)';
+        ageReveal.style.transition = 'all 0.5s ease-out';
+      }, 500);
+      
+      // Remove blast after animation
+      setTimeout(() => {
+        blast.remove();
+      }, 1000);
+    }
+    
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      document.getElementById(pageId).classList.add('active');
+      
+      // Special page setups
+      if (pageId === 'cake' && !cakeScene) {
+        init3DCake();
+      }
+    }
+    
+    function nextPage() {
+      if (currentPage < pages.length - 1) {
+        currentPage++;
+        showPage(pages[currentPage]);
+        
+        if (pages[currentPage] === 'countdown') {
+          startCountdown();
         }
-
-        function updatePage() {
-            const title = document.getElementById("title");
-            const message = document.getElementById("message");
-            const btnContainer = document.querySelector(".btn-container");
-
-            // Update content
-            title.innerText = "Did You Forgive Me? 🥺";
-            message.innerText = messages[page];
-
-            // Reset animations
-            message.style.opacity = 0;
-            btnContainer.style.opacity = 0;
-            setTimeout(() => {
-                message.style.opacity = 1;
-                btnContainer.style.opacity = 1;
-            }, 100);
+      }
+    }
+    
+    function startCountdown() {
+      let year = 2008;
+      const counter = document.getElementById('year-counter');
+      const ageDisplay = document.getElementById('age-display');
+      const endYear = new Date().getFullYear();
+      
+      const timer = setInterval(() => {
+        year++;
+        counter.textContent = year;
+        ageDisplay.textContent = `Age ${year - 2008}`;
+        
+        if (year === endYear) {
+          clearInterval(timer);
+          // Create blast effect at end of countdown
+          createCountdownBlast();
+          ageDisplay.innerHTML += "<br>You are now 17! 🎉";
         }
-
-        function handleYes() {
-            triggerConfetti(); // Trigger confetti
-            document.getElementById("mainPage").classList.add("hidden");
-            document.getElementById("thankYouPage").classList.remove("hidden");
+      }, 200);
+    }
+    
+    function createCountdownBlast() {
+      const container = document.getElementById('countdown');
+      const blast = document.createElement('div');
+      blast.className = 'blast-circle';
+      blast.style.width = '0px';
+      blast.style.height = '0px';
+      blast.style.left = '50%';
+      blast.style.top = '50%';
+      blast.style.transform = 'translate(-50%, -50%) scale(0)';
+      blast.style.background = 'radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,107,107,0) 70%)';
+      container.appendChild(blast);
+      
+      // Animate blast
+      setTimeout(() => {
+        blast.style.width = '1000px';
+        blast.style.height = '1000px';
+        blast.style.transform = 'translate(-50%, -50%) scale(1)';
+        blast.style.opacity = '0';
+        blast.style.transition = 'all 1s ease-out';
+      }, 10);
+      
+      // Remove blast after animation
+      setTimeout(() => {
+        blast.remove();
+      }, 1000);
+    }
+    
+    function init3DCake() {
+      // Set up Three.js scene
+      cakeScene = new THREE.Scene();
+      cakeCamera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+      cakeRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      cakeRenderer.setSize(300, 300);
+      document.getElementById('cake-container').appendChild(cakeRenderer.domElement);
+      
+      // Add lights
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+      cakeScene.add(ambientLight);
+      
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+      directionalLight.position.set(1, 1, 1);
+      cakeScene.add(directionalLight);
+      
+      // Create cake
+      const cakeGeometry = new THREE.CylinderGeometry(2, 2, 1, 32);
+      const cakeMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0xf9a8d4,
+        shininess: 100
+      });
+      cake = new THREE.Mesh(cakeGeometry, cakeMaterial);
+      cake.position.y = -1;
+      cakeScene.add(cake);
+      
+      // Create icing
+      const icingGeometry = new THREE.TorusGeometry(2, 0.2, 16, 100, Math.PI * 2);
+      const icingMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
+      const icing = new THREE.Mesh(icingGeometry, icingMaterial);
+      icing.position.y = -0.4;
+      cakeScene.add(icing);
+      
+      // Create candles
+      const candleGeometry = new THREE.CylinderGeometry(0.1, 0.1, 0.8, 16);
+      const candleMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
+      const flameGeometry = new THREE.ConeGeometry(0.15, 0.4, 16);
+      const flameMaterial = new THREE.MeshBasicMaterial({ 
+        color: 0xff9900,
+        transparent: true,
+        opacity: 0.8
+      });
+      
+      for (let i = 0; i < 4; i++) {
+        const candle = new THREE.Mesh(candleGeometry, candleMaterial.clone());
+        candle.position.x = (i - 1.5) * 0.6;
+        candle.position.y = 0;
+        candle.position.z = 0;
+        
+        const flame = new THREE.Mesh(flameGeometry, flameMaterial.clone());
+        flame.position.y = 0.9;
+        flame.position.x = candle.position.x;
+        flame.position.z = candle.position.z;
+        flame.userData.isLit = true;
+        
+        candle.add(flame);
+        cakeScene.add(candle);
+        candles.push({ candle, flame });
+        
+        // Make candle interactive
+        candle.userData = { index: i, isLit: true };
+      }
+      
+      // Position camera
+      cakeCamera.position.z = 5;
+      
+      // Animation loop
+      animateCake();
+      
+      // Add click handler
+      document.getElementById('cake-container').addEventListener('click', onCakeClick, false);
+    }
+    
+    function animateCake() {
+      requestAnimationFrame(animateCake);
+      
+      // Rotate cake slightly
+      cake.rotation.y += 0.005;
+      
+      // Animate flames
+      candles.forEach(candleObj => {
+        if (candleObj.flame.userData.isLit) {
+          candleObj.flame.scale.y = 1 + Math.sin(Date.now() * 0.01) * 0.2;
+          candleObj.flame.scale.x = 1 + Math.cos(Date.now() * 0.008) * 0.1;
         }
-
-        function handleNo() {
-            if (page < messages.length - 1) {
-                page++;
-                updatePage();
-            } else {
-                // Show the "Forgive Me" page
-                document.getElementById("mainPage").classList.add("hidden");
-                document.getElementById("forgiveMePage").classList.remove("hidden");
-            }
+      });
+      
+      cakeRenderer.render(cakeScene, cakeCamera);
+    }
+    
+    function onCakeClick(event) {
+      // Calculate mouse position in normalized device coordinates
+      const rect = cakeRenderer.domElement.getBoundingClientRect();
+      mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+      
+      // Update the raycaster
+      raycaster.setFromCamera(mouse, cakeCamera);
+      
+      // Check for intersections with candles
+      const intersects = raycaster.intersectObjects(cakeScene.children, true);
+      
+      if (intersects.length > 0) {
+        // Find the top-level candle object
+        let obj = intersects[0].object;
+        while (obj.parent && obj.parent !== cakeScene) {
+          obj = obj.parent;
         }
-    </script>
-
+        
+        if (obj.userData && obj.userData.isLit) {
+          blowCandle(obj);
+        }
+      }
+    }
+    
+    function blowCandle(candle) {
+      if (!candle.userData.isLit) return;
+      
+      candle.userData.isLit = false;
+      candlesBlown++;
+      
+      // Play blow sound
+      const blowSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3');
+      blowSound.volume = 0.3;
+      blowSound.play();
+      
+      // Hide flame
+      const candleObj = candles[candle.userData.index];
+      candleObj.flame.visible = false;
+      
+      // Change candle color to show it's blown
+      candle.material.color.setHex(0xdddddd);
+      
+      if (candlesBlown === 4) {
+        document.getElementById('wish-message').style.display = 'block';
+        document.getElementById('wish-message').textContent = 'All candles blown! Your wish will come true! ✨';
+        confetti.render();
+        
+        setTimeout(() => {
+          nextPage();
+        }, 2000);
+      }
+    }
+    
+    // Form submission handler - SIMPLIFIED
+    document.getElementById('birthdayWish').addEventListener('submit', function() {
+      const submitBtn = document.getElementById('submitWishBtn');
+      submitBtn.innerHTML = 'Sending... ✨';
+      submitBtn.disabled = true;
+      
+      // Let the form submit normally to FormSubmit
+      return true;
+    });
+    
+    // Create random floating hearts
+    setInterval(() => {
+      const heart = document.createElement('div');
+      heart.className = 'hearts';
+      heart.innerHTML = ['❤️', '💖', '💕', '💗', '💘'][Math.floor(Math.random() * 5)];
+      heart.style.left = Math.random() * 100 + '%';
+      heart.style.animationDuration = (5 + Math.random() * 10) + 's';
+      heart.style.animationDelay = Math.random() * 5 + 's';
+      document.body.appendChild(heart);
+      
+      // Remove heart after animation
+      setTimeout(() => {
+        heart.remove();
+      }, 15000);
+    }, 800);
+  </script>
 </body>
 </html>
